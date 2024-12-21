@@ -6,7 +6,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load the trained model and features
-with open('C:\Users\jayant\Downloads\Project\models\model.pkl', 'rb') as file:
+with open(r'C:\Users\jayant\Downloads\Project\models\model.pkl', 'rb') as file:
     model_data = pickle.load(file)
 
 # Extract the model and feature names
