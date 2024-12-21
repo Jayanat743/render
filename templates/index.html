@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop Price Predictor</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f5f7;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #3182ce;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 15px;
+            color: #4a5568;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+            background-color: #f7fafc;
+        }
+        input:focus, select:focus {
+            border-color: #3182ce;
+            outline: none;
+            background-color: #ffffff;
+        }
+        button {
+            padding: 12px;
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2b6cb0;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #38a169;
+        }
+        .error {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: #e53e3e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Laptop Price Predictor</h1>
+        <form action="/predict" method="POST">
+            {% for feature in feature_names %}
+                <label for="{{ feature }}">{{ feature }}:</label>
+                {% if feature in categorical_options %}
+                    <select name="{{ feature }}" required>
+                        {% for option in categorical_options[feature] %}
+                            <option value="{{ loop.index0 }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <input type="number" step="0.01" name="{{ feature }}" required>
+                {% endif %}
+            {% endfor %}
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction_text %}
+            <div class="result">{{ prediction_text }}</div>
+        {% elif error_text %}
+            <div class="error">{{ error_text }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
